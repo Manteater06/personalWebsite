@@ -11,6 +11,8 @@
   --pink: #ff2d95;
   --pink-dim: #b0206a;
   --pink-glow: rgba(255, 45, 149, 0.4);
+  --violet: #b44aff;
+  --violet-glow: rgba(180, 74, 255, 0.3);
   --bg-dark: #0a0a12;
   --bg-card: #10101c;
   --bg-card-hover: #161628;
@@ -47,8 +49,9 @@ body {
   font-size: 17px;
   overflow-x: hidden;
   background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.025) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 100%, rgba(255, 45, 149, 0.02) 0%, transparent 45%);
+    radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 50%, rgba(180, 74, 255, 0.015) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 100%, rgba(255, 45, 149, 0.018) 0%, transparent 45%);
   background-attachment: fixed;
 }
 
@@ -164,11 +167,12 @@ img {
   background: rgba(10, 10, 18, 0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, border-color 0.3s;
 }
 
 .nav.scrolled {
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.08), 0 0 20px rgba(255, 45, 149, 0.05);
+  border-bottom-color: rgba(180, 74, 255, 0.15);
+  box-shadow: 0 1px 15px rgba(180, 74, 255, 0.06), 0 0 20px rgba(0, 212, 255, 0.04);
 }
 
 .nav-logo {
@@ -292,6 +296,50 @@ img {
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* Synthwave horizon */
+.hero-horizon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+.hero-sun {
+  position: absolute;
+  bottom: 42%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 45, 149, 0.2) 0%,
+    rgba(180, 74, 255, 0.1) 40%,
+    transparent 70%
+  );
+  filter: blur(8px);
+}
+
+.hero-floor-grid {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  right: -50%;
+  height: 50%;
+  background-image:
+    linear-gradient(rgba(180, 74, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.06) 1px, transparent 1px);
+  background-size: 80px 30px;
+  transform: perspective(400px) rotateX(60deg);
+  transform-origin: bottom center;
 }
 
 .hero-content {
@@ -472,6 +520,29 @@ img {
 /* --- Sections --- */
 .section {
   padding: 100px 0;
+  position: relative;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(180, 74, 255, 0.2) 20%,
+    rgba(0, 212, 255, 0.3) 50%,
+    rgba(255, 45, 149, 0.2) 80%,
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.1);
+}
+
+.hero + .section::before {
+  display: none;
 }
 
 .section-alt {
@@ -484,6 +555,7 @@ img {
   font-weight: 700;
   margin-bottom: 50px;
   letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(180, 74, 255, 0.08);
 }
 
 .title-decoration {
@@ -543,6 +615,9 @@ img {
   overflow: hidden;
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  box-shadow:
+    0 0 15px rgba(180, 74, 255, 0.04),
+    inset 0 1px 0 rgba(0, 212, 255, 0.06);
 }
 
 .terminal-header {
@@ -602,11 +677,28 @@ img {
   border-radius: 4px;
   padding: 28px;
   transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.skill-category::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .skill-category:hover {
   border-color: var(--blue-dim);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.06);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.06), 0 4px 20px rgba(180, 74, 255, 0.04);
+}
+
+.skill-category:hover::after {
+  opacity: 1;
 }
 
 .skill-category-title {
@@ -662,12 +754,30 @@ img {
   transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--violet), var(--pink));
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .project-card:hover {
   transform: translateY(-6px);
   border-color: var(--pink-dim);
-  box-shadow: 0 10px 40px rgba(255, 45, 149, 0.08), 0 0 20px rgba(255, 45, 149, 0.04);
+  box-shadow: 0 10px 40px rgba(255, 45, 149, 0.08), 0 0 25px rgba(180, 74, 255, 0.05);
+}
+
+.project-card:hover::before {
+  opacity: 1;
 }
 
 .project-card-header {
@@ -758,6 +868,24 @@ img {
   padding: 30px 0;
   text-align: center;
   border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(180, 74, 255, 0.15) 30%,
+    rgba(0, 212, 255, 0.2) 50%,
+    rgba(255, 45, 149, 0.15) 70%,
+    transparent
+  );
 }
 
 .footer-text {
