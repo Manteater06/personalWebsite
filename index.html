@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name | Portfolio</title>
+  <title>Anton Zebisch | Portfolio</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +17,7 @@
   <!-- Navigation -->
   <nav class="nav" id="nav">
     <a href="#hero" class="nav-logo">
-      <span class="logo-bracket">[</span> YN <span class="logo-bracket">]</span>
+      <span class="logo-bracket">[</span> AZ <span class="logo-bracket">]</span>
     </a>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -25,7 +25,7 @@
     <ul class="nav-links" id="nav-links">
       <li><a href="#about" data-text="About">About</a></li>
       <li><a href="#skills" data-text="Skills">Skills</a></li>
-      <li><a href="#projects" data-text="Projects">Projects</a></li>
+      <!-- <li><a href="#projects" data-text="Projects">Projects</a></li> -->
       <li><a href="#contact" data-text="Contact">Contact</a></li>
       <li><a href="#" class="nav-resume" data-text="Resume">Resume</a></li>
     </ul>
@@ -37,8 +37,8 @@
     <div class="hero-content">
       <p class="hero-greeting glitch-text" data-text="Hello, I'm">Hello, I'm</p>
       <h1 class="hero-name">
-        <span class="name-line">Your</span>
-        <span class="name-line accent">Name</span>
+        <span class="name-line">Anton</span>
+        <span class="name-line accent">Zebisch</span>
       </h1>
       <div class="hero-tagline-wrapper">
         <span class="hero-tagline-prefix">&gt;&gt;</span>
@@ -46,7 +46,7 @@
         <span class="cursor">_</span>
       </div>
       <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#skills" class="btn btn-primary">View Skills</a>
         <a href="#contact" class="btn btn-outline">Get In Touch</a>
       </div>
     </div>
@@ -65,14 +65,15 @@
       <div class="about-grid">
         <div class="about-text">
           <p>
-            I'm a passionate developer and student looking for internship
+            I'm Anton Zebisch &mdash; a developer and student with a keen
+            interest in electronics and robotics. I'm looking for internship
             opportunities where I can grow, contribute, and build meaningful
-            software. I love turning ideas into clean, efficient code.
+            software and hardware solutions.
           </p>
           <p>
-            When I'm not coding, you'll find me exploring new technologies,
-            contributing to open source, or diving into the latest in AI and
-            web development.
+            When I'm not coding, you'll find me tinkering with circuits,
+            working on robotics projects, or exploring the intersection of
+            software and the physical world.
           </p>
           <div class="about-stats">
             <div class="stat">
@@ -103,9 +104,9 @@
               <p class="output">B.S. Computer Science, 2026</p>
               <br />
               <p><span class="prompt">$</span> cat interests.txt</p>
-              <p class="output">Web Development</p>
-              <p class="output">Machine Learning</p>
-              <p class="output">Systems Programming</p>
+              <p class="output">Electronics</p>
+              <p class="output">Robotics</p>
+              <p class="output">Software Development</p>
               <br />
               <p><span class="prompt">$</span> echo $STATUS</p>
               <p class="output accent-text">Seeking Summer 2026 Internship</p>
@@ -175,89 +176,8 @@
     </div>
   </section>
 
-  <!-- Projects Section -->
-  <section class="section" id="projects">
-    <div class="container">
-      <h2 class="section-title">
-        <span class="title-decoration">//</span> Projects
-      </h2>
-      <div class="projects-grid">
-
-        <article class="project-card">
-          <div class="project-card-header">
-            <span class="project-icon">&#9650;</span>
-            <div class="project-links">
-              <a href="#" class="project-link" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-              </a>
-              <a href="#" class="project-link" aria-label="External Link">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="project-title">Project One</h3>
-          <p class="project-description">
-            A brief description of this project. What problem does it solve?
-            What technologies did you use? Keep it concise and impactful.
-          </p>
-          <div class="project-tech">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>PostgreSQL</span>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-card-header">
-            <span class="project-icon">&#9650;</span>
-            <div class="project-links">
-              <a href="#" class="project-link" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-              </a>
-              <a href="#" class="project-link" aria-label="External Link">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="project-title">Project Two</h3>
-          <p class="project-description">
-            Another project description. Highlight what makes this interesting
-            or what you learned from building it.
-          </p>
-          <div class="project-tech">
-            <span>Python</span>
-            <span>Flask</span>
-            <span>TensorFlow</span>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-card-header">
-            <span class="project-icon">&#9650;</span>
-            <div class="project-links">
-              <a href="#" class="project-link" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-              </a>
-              <a href="#" class="project-link" aria-label="External Link">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-          </div>
-          <h3 class="project-title">Project Three</h3>
-          <p class="project-description">
-            Describe what this project does and why it matters. Recruiters
-            want to see impact and problem-solving skills.
-          </p>
-          <div class="project-tech">
-            <span>TypeScript</span>
-            <span>Next.js</span>
-            <span>Prisma</span>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
+  <!-- Projects Section (coming soon) -->
+  <!-- Add project cards here when ready -->
 
   <!-- Contact Section -->
   <section class="section section-alt" id="contact">
@@ -294,7 +214,7 @@
     <div class="container">
       <p class="footer-text">
         <span class="footer-bracket">[</span>
-        Designed &amp; Built by Your Name
+        Designed &amp; Built by Anton Zebisch
         <span class="footer-bracket">]</span>
       </p>
     </div>

@@ -6,9 +6,9 @@
 const typewriterEl = document.getElementById("typewriter");
 const phrases = [
   "Software Developer",
-  "CS Student",
+  "Electronics Enthusiast",
+  "Robotics Tinkerer",
   "Problem Solver",
-  "Open Source Enthusiast",
 ];
 
 let phraseIndex = 0;
@@ -73,7 +73,7 @@ navLinks.querySelectorAll("a").forEach((link) => {
 // --- Scroll reveal animations ---
 function addRevealClasses() {
   const targets = document.querySelectorAll(
-    ".about-text, .about-terminal, .skill-category, .project-card, .contact-container"
+    ".about-text, .about-terminal, .skill-category, .contact-container"
   );
   targets.forEach((el) => el.classList.add("reveal"));
 }
