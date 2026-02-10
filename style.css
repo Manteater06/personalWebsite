@@ -313,19 +313,47 @@ img {
 
 .hero-sun {
   position: absolute;
-  bottom: 42%;
+  bottom: 38%;
   left: 50%;
   transform: translateX(-50%);
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 45, 149, 0.2) 0%,
-    rgba(180, 74, 255, 0.1) 40%,
-    transparent 70%
+  background:
+    radial-gradient(circle, rgba(255, 150, 50, 0.18) 0%, rgba(255, 45, 149, 0.15) 30%, rgba(180, 74, 255, 0.08) 55%, transparent 70%);
+  filter: blur(6px);
+  /* Horizontal slice lines through the sun */
+  mask-image: repeating-linear-gradient(
+    0deg,
+    black 0px, black 8px,
+    transparent 8px, transparent 12px
   );
-  filter: blur(8px);
+  -webkit-mask-image: repeating-linear-gradient(
+    0deg,
+    black 0px, black 8px,
+    transparent 8px, transparent 12px
+  );
+}
+
+.hero-sun-reflection {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 80px;
+  background: radial-gradient(ellipse, rgba(255, 45, 149, 0.08) 0%, transparent 70%);
+  filter: blur(20px);
+}
+
+.hero-horizon-line {
+  position: absolute;
+  bottom: 40%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(255, 45, 149, 0.25) 30%, rgba(180, 74, 255, 0.35) 50%, rgba(255, 45, 149, 0.25) 70%, transparent 95%);
+  box-shadow: 0 0 12px rgba(255, 45, 149, 0.15);
 }
 
 .hero-floor-grid {
@@ -333,13 +361,40 @@ img {
   bottom: 0;
   left: -50%;
   right: -50%;
-  height: 50%;
+  height: 42%;
   background-image:
-    linear-gradient(rgba(180, 74, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(180, 74, 255, 0.06) 1px, transparent 1px);
-  background-size: 80px 30px;
-  transform: perspective(400px) rotateX(60deg);
+    linear-gradient(rgba(180, 74, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.07) 1px, transparent 1px);
+  background-size: 80px 24px;
+  transform: perspective(350px) rotateX(55deg);
   transform-origin: bottom center;
+}
+
+/* Palm tree silhouettes */
+.hero-palm {
+  position: absolute;
+  bottom: 12%;
+  width: 180px;
+  height: 300px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+.hero-palm-left {
+  left: 4%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cpath d='M95 400 L100 180 Q102 160 98 150 Q60 120 15 100 Q55 110 95 140 Q80 100 40 60 Q75 90 100 135 Q95 90 80 40 Q95 80 105 130 Q110 80 130 30 Q115 85 108 135 Q120 90 155 55 Q125 95 110 140 Q140 110 180 95 Q140 120 105 150 Q103 160 105 180 Z' fill='%23b44aff'/%3E%3C/svg%3E");
+  transform: scaleX(-1);
+}
+
+.hero-palm-right {
+  right: 6%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cpath d='M95 400 L100 180 Q102 160 98 150 Q60 120 15 100 Q55 110 95 140 Q80 100 40 60 Q75 90 100 135 Q95 90 80 40 Q95 80 105 130 Q110 80 130 30 Q115 85 108 135 Q120 90 155 55 Q125 95 110 140 Q140 110 180 95 Q140 120 105 150 Q103 160 105 180 Z' fill='%23b44aff'/%3E%3C/svg%3E");
+  transform: rotate(5deg);
+  opacity: 0.045;
 }
 
 .hero-content {
@@ -899,6 +954,76 @@ img {
   color: var(--pink);
 }
 
+/* --- Section Background Textures --- */
+
+/* Skills: circuit trace pattern */
+.section-circuit {
+  background-image:
+    radial-gradient(circle at 85% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 35%),
+    radial-gradient(circle at 15% 80%, rgba(180, 74, 255, 0.025) 0%, transparent 30%);
+  background-color: var(--bg-section-alt);
+}
+
+.section-circuit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image:
+    /* Horizontal traces */
+    linear-gradient(0deg, transparent 49.5%, rgba(0, 212, 255, 0.6) 49.5%, rgba(0, 212, 255, 0.6) 50.5%, transparent 50.5%),
+    /* Vertical traces */
+    linear-gradient(90deg, transparent 49.5%, rgba(180, 74, 255, 0.6) 49.5%, rgba(180, 74, 255, 0.6) 50.5%, transparent 50.5%),
+    /* Nodes / dots */
+    radial-gradient(circle 2px, rgba(0, 212, 255, 0.8) 100%, transparent 100%);
+  background-size: 120px 120px, 120px 120px, 120px 120px;
+  mask-image: radial-gradient(ellipse at center, transparent 20%, black 50%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 20%, black 50%, transparent 85%);
+}
+
+/* Projects: hex / diamond grid pattern */
+.section-hex {
+  background-image:
+    radial-gradient(circle at 70% 30%, rgba(255, 45, 149, 0.025) 0%, transparent 40%),
+    radial-gradient(circle at 30% 70%, rgba(0, 212, 255, 0.02) 0%, transparent 35%);
+}
+
+.section-hex::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(60deg, transparent 48%, rgba(255, 45, 149, 0.4) 48%, rgba(255, 45, 149, 0.4) 52%, transparent 52%),
+    linear-gradient(-60deg, transparent 48%, rgba(255, 45, 149, 0.4) 48%, rgba(255, 45, 149, 0.4) 52%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(180, 74, 255, 0.4) 48%, rgba(180, 74, 255, 0.4) 52%, transparent 52%);
+  background-size: 60px 104px;
+  mask-image: radial-gradient(ellipse at center, transparent 15%, black 45%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 15%, black 45%, transparent 80%);
+}
+
+/* Contact: city skyline silhouette + glow */
+.section-city {
+  background-color: var(--bg-section-alt);
+  overflow: hidden;
+}
+
+.section-city::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120 L0 80 L30 80 L30 50 L50 50 L50 70 L70 70 L70 30 L90 30 L90 70 L110 70 L110 45 L130 45 L130 60 L150 60 L150 20 L170 20 L170 60 L190 60 L190 40 L210 40 L210 65 L240 65 L240 35 L260 35 L260 55 L280 55 L280 75 L300 75 L300 25 L320 25 L320 60 L340 60 L340 45 L360 45 L360 70 L380 70 L380 50 L400 50 L400 15 L420 15 L420 55 L440 55 L440 40 L460 40 L460 70 L480 70 L480 55 L500 55 L500 30 L520 30 L520 65 L540 65 L540 45 L560 45 L560 75 L580 75 L580 35 L600 35 L600 60 L620 60 L620 20 L640 20 L640 50 L660 50 L660 70 L680 70 L680 40 L700 40 L700 65 L720 65 L720 25 L740 25 L740 55 L760 55 L760 45 L780 45 L780 70 L800 70 L800 30 L820 30 L820 60 L840 60 L840 50 L860 50 L860 75 L880 75 L880 20 L900 20 L900 55 L920 55 L920 40 L940 40 L940 65 L960 65 L960 35 L980 35 L980 50 L1000 50 L1000 70 L1020 70 L1020 45 L1040 45 L1040 60 L1060 60 L1060 25 L1080 25 L1080 55 L1100 55 L1100 40 L1120 40 L1120 70 L1140 70 L1140 50 L1160 50 L1160 80 L1200 80 L1200 120 Z' fill='%2300d4ff'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 /* --- Reveal Animations --- */
 .reveal {
   opacity: 0;
@@ -965,4 +1090,13 @@ img {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .hero-palm {
+    width: 100px;
+    height: 180px;
+    opacity: 0.04;
+  }
+
+  .hero-palm-left { left: -2%; }
+  .hero-palm-right { right: -2%; }
 }
