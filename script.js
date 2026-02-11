@@ -127,20 +127,18 @@ function animateCounter(el, target) {
   }, 40);
 }
 
-// --- Synthwave UI Sounds (generated WAV blobs — no WebAudio API) ---
-// Generates actual audio files in memory so playback is bulletproof.
+// --- Synthwave UI Sounds (generated WAV blobs) ---
+// Pre-generates multiple sound variants for natural feel.
 const SynthSound = (() => {
-  let hoverUrl = null;
-  let clickUrl = null;
+  const hoverUrls = [];
+  const clickUrls = [];
   let lastHover = 0;
+  let ready = false;
 
-  // Build a 16-bit mono WAV from sample generator function
   function buildWav(duration, sampleRate, generator) {
     const numSamples = Math.floor(sampleRate * duration);
     const buffer = new ArrayBuffer(44 + numSamples * 2);
     const v = new DataView(buffer);
-
-    // WAV header
     const s = (o, str) => { for (let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
     s(0, "RIFF");
     v.setUint32(4, 36 + numSamples * 2, true);
@@ -155,67 +153,70 @@ const SynthSound = (() => {
     v.setUint16(34, 16, true);
     s(36, "data");
     v.setUint32(40, numSamples * 2, true);
-
     for (let i = 0; i < numSamples; i++) {
       const t = i / sampleRate;
       const sample = Math.max(-1, Math.min(1, generator(t, duration)));
       v.setInt16(44 + i * 2, sample * 32767, true);
     }
-
     return URL.createObjectURL(new Blob([buffer], { type: "audio/wav" }));
   }
 
-  // Hover: soft low hum that swells and fades (not a beep)
-  function makeHoverSound() {
-    return buildWav(0.25, 22050, (t, dur) => {
-      // Gentle envelope: fade in then fade out
-      const env = Math.sin(Math.PI * t / dur);
-      // Low warm sine + even lower sub
-      const wave = Math.sin(2 * Math.PI * 220 * t) * 0.5
-                 + Math.sin(2 * Math.PI * 221.5 * t) * 0.3
-                 + Math.sin(2 * Math.PI * 110 * t) * 0.2;
-      return wave * env * 0.08;
-    });
-  }
-
-  // Click: deeper synth pad chord that hums and fades
-  function makeClickSound() {
-    return buildWav(0.4, 22050, (t, dur) => {
-      // Quick attack, slow fade
-      const env = t < 0.02 ? t / 0.02 : Math.pow(1 - (t - 0.02) / (dur - 0.02), 2);
-      // Rich warm chord: root + fifth + octave, all low
-      const wave = Math.sin(2 * Math.PI * 165 * t) * 0.4
-                 + Math.sin(2 * Math.PI * 165.8 * t) * 0.25
-                 + Math.sin(2 * Math.PI * 247 * t) * 0.2
-                 + Math.sin(2 * Math.PI * 330 * t) * 0.15;
-      return wave * env * 0.1;
-    });
-  }
-
   function init() {
-    if (!hoverUrl) hoverUrl = makeHoverSound();
-    if (!clickUrl) clickUrl = makeClickSound();
+    if (ready) return;
+    ready = true;
+
+    // Generate 5 hover variants with different pitches
+    const hoverPitches = [520, 580, 640, 700, 760];
+    hoverPitches.forEach((hz) => {
+      hoverUrls.push(buildWav(0.45, 22050, (t, dur) => {
+        const env = Math.sin(Math.PI * t / dur);
+        const wave = Math.sin(2 * Math.PI * hz * t) * 0.4
+                   + Math.sin(2 * Math.PI * (hz + 1.5) * t) * 0.3
+                   + Math.sin(2 * Math.PI * (hz * 0.5) * t) * 0.15;
+        return wave * env * 0.06;
+      }));
+    });
+
+    // Generate 5 click variants with different chords
+    const clickChords = [
+      [330, 495, 660],
+      [370, 555, 740],
+      [415, 622, 830],
+      [350, 525, 700],
+      [392, 588, 784],
+    ];
+    clickChords.forEach(([r, f, o]) => {
+      clickUrls.push(buildWav(0.6, 22050, (t, dur) => {
+        const env = t < 0.015 ? t / 0.015 : Math.pow(1 - (t - 0.015) / (dur - 0.015), 1.5);
+        const wave = Math.sin(2 * Math.PI * r * t) * 0.35
+                   + Math.sin(2 * Math.PI * (r + 1.2) * t) * 0.2
+                   + Math.sin(2 * Math.PI * f * t) * 0.2
+                   + Math.sin(2 * Math.PI * o * t) * 0.12;
+        return wave * env * 0.07;
+      }));
+    });
   }
 
-  function play(url) {
+  function play(urls) {
     try {
+      const url = urls[Math.floor(Math.random() * urls.length)];
       const a = new Audio(url);
-      a.volume = 1.0;
+      a.volume = 0.8;
       a.play();
     } catch (e) { /* unsupported */ }
   }
 
   function hover() {
     const now = Date.now();
-    if (now - lastHover < 150) return;
+    if (now - lastHover < 130) return;
     lastHover = now;
     init();
-    play(hoverUrl);
+    play(hoverUrls);
   }
 
   function click() {
     init();
-    play(clickUrl);
+    play(clickUrls);
   }
 
   return { hover, click };
