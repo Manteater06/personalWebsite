@@ -128,107 +128,132 @@ function animateCounter(el, target) {
 }
 
 // --- Synthwave UI Sounds (Web Audio API) ---
-let audioCtx = null;
-let audioUnlocked = false;
+// AudioContext is created lazily and resumed on every play attempt.
+// No separate "unlock" step needed — we resume inside each play call.
+const SynthSound = (() => {
+  let ctx = null;
+  let lastHover = 0;
 
-function getAudioCtx() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function ensureCtx() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+    return ctx;
   }
-  // Resume suspended context (browser autoplay policy)
-  if (audioCtx.state === "suspended") {
-    audioCtx.resume();
+
+  function hover() {
+    const now = Date.now();
+    if (now - lastHover < 120) return;
+    lastHover = now;
+
+    try {
+      const c = ensureCtx();
+      const t = c.currentTime;
+
+      // Warm, soft sine pad blip — like a synth key tap
+      const osc1 = c.createOscillator();
+      const osc2 = c.createOscillator();
+      const gain = c.createGain();
+      const filter = c.createBiquadFilter();
+
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(680, t);
+      osc1.frequency.linearRampToValueAtTime(720, t + 0.15);
+
+      // Slight detune for warm analog feel
+      osc2.type = "sine";
+      osc2.frequency.setValueAtTime(684, t);
+      osc2.frequency.linearRampToValueAtTime(724, t + 0.15);
+
+      // Low-pass filter to keep it soft
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1200, t);
+
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
+      gain.gain.linearRampToValueAtTime(0, t + 0.18);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(c.destination);
+
+      osc1.start(t);
+      osc2.start(t);
+      osc1.stop(t + 0.2);
+      osc2.stop(t + 0.2);
+    } catch (e) {
+      // silently fail if Web Audio is unsupported
+    }
   }
-  return audioCtx;
-}
 
-// Unlock audio on very first user interaction
-function unlockAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
-  getAudioCtx();
-  document.removeEventListener("click", unlockAudio);
-  document.removeEventListener("touchstart", unlockAudio);
-  document.removeEventListener("mousemove", unlockAudio);
-}
-document.addEventListener("click", unlockAudio);
-document.addEventListener("touchstart", unlockAudio);
-document.addEventListener("mousemove", unlockAudio);
+  function click() {
+    try {
+      const c = ensureCtx();
+      const t = c.currentTime;
 
-function playHoverSound() {
-  const ctx = getAudioCtx();
-  if (ctx.state !== "running") return;
+      const osc1 = c.createOscillator();
+      const osc2 = c.createOscillator();
+      const gain = c.createGain();
+      const filter = c.createBiquadFilter();
 
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
+      // Warm sine chord — like pressing a synth key
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(440, t);
+      osc1.frequency.linearRampToValueAtTime(480, t + 0.25);
 
-  osc.type = "sine";
-  osc.frequency.setValueAtTime(1100, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(1500, ctx.currentTime + 0.05);
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(660, t);
+      osc2.frequency.linearRampToValueAtTime(620, t + 0.25);
 
-  gain.gain.setValueAtTime(0.25, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1500, t);
+      filter.frequency.linearRampToValueAtTime(600, t + 0.3);
 
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.12);
-}
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.2, t + 0.015);
+      gain.gain.linearRampToValueAtTime(0, t + 0.3);
 
-function playClickSound() {
-  const ctx = getAudioCtx();
-  if (ctx.state !== "running") return;
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(c.destination);
 
-  const osc1 = ctx.createOscillator();
-  const osc2 = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc1.type = "square";
-  osc1.frequency.setValueAtTime(520, ctx.currentTime);
-  osc1.frequency.exponentialRampToValueAtTime(780, ctx.currentTime + 0.03);
-  osc1.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.15);
-
-  osc2.type = "sine";
-  osc2.frequency.setValueAtTime(1040, ctx.currentTime);
-  osc2.frequency.exponentialRampToValueAtTime(520, ctx.currentTime + 0.1);
-
-  gain.gain.setValueAtTime(0.35, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
-
-  osc1.connect(gain);
-  osc2.connect(gain);
-  gain.connect(ctx.destination);
-  osc1.start(ctx.currentTime);
-  osc2.start(ctx.currentTime);
-  osc1.stop(ctx.currentTime + 0.2);
-  osc2.stop(ctx.currentTime + 0.2);
-}
-
-// Throttle hover sounds so they don't stack up
-let lastHoverTime = 0;
-function throttledHoverSound() {
-  const now = Date.now();
-  if (now - lastHoverTime > 100) {
-    lastHoverTime = now;
-    playHoverSound();
+      osc1.start(t);
+      osc2.start(t);
+      osc1.stop(t + 0.35);
+      osc2.stop(t + 0.35);
+    } catch (e) {
+      // silently fail
+    }
   }
-}
 
-// Attach to interactive elements
-const hoverTargets = document.querySelectorAll(
-  ".btn, .nav-links a, .skill-tag, .project-card, .social-link, .nav-resume, .nav-logo"
-);
+  return { hover, click };
+})();
 
-hoverTargets.forEach((el) => {
-  el.addEventListener("mouseenter", throttledHoverSound);
+// Attach sounds using event delegation on the whole document
+// This way even dynamically added elements get sounds
+document.addEventListener("mouseover", (e) => {
+  if (
+    e.target.closest(
+      ".btn, .nav-links a, .skill-tag, .project-card, .social-link, .nav-resume, .nav-logo, .nav-toggle"
+    )
+  ) {
+    SynthSound.hover();
+  }
 });
 
-const clickTargets = document.querySelectorAll(
-  ".btn, .nav-links a, .social-link, .nav-resume, .nav-toggle"
-);
-
-clickTargets.forEach((el) => {
-  el.addEventListener("click", playClickSound);
+document.addEventListener("click", (e) => {
+  if (
+    e.target.closest(
+      ".btn, .nav-links a, .social-link, .nav-resume, .nav-toggle, .skill-tag"
+    )
+  ) {
+    SynthSound.click();
+  }
 });
 
 // --- Smooth scroll for anchor links ---
