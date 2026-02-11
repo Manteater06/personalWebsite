@@ -129,64 +129,86 @@ function animateCounter(el, target) {
 
 // --- Synthwave UI Sounds (Web Audio API) ---
 let audioCtx = null;
+let audioUnlocked = false;
 
 function getAudioCtx() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
+  // Resume suspended context (browser autoplay policy)
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
   return audioCtx;
 }
 
+// Unlock audio on very first user interaction
+function unlockAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  getAudioCtx();
+  document.removeEventListener("click", unlockAudio);
+  document.removeEventListener("touchstart", unlockAudio);
+  document.removeEventListener("mousemove", unlockAudio);
+}
+document.addEventListener("click", unlockAudio);
+document.addEventListener("touchstart", unlockAudio);
+document.addEventListener("mousemove", unlockAudio);
+
 function playHoverSound() {
   const ctx = getAudioCtx();
+  if (ctx.state !== "running") return;
+
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
   osc.type = "sine";
-  osc.frequency.setValueAtTime(880, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.06);
+  osc.frequency.setValueAtTime(1100, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1500, ctx.currentTime + 0.05);
 
-  gain.gain.setValueAtTime(0.06, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+  gain.gain.setValueAtTime(0.25, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
 
   osc.connect(gain);
   gain.connect(ctx.destination);
   osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.1);
+  osc.stop(ctx.currentTime + 0.12);
 }
 
 function playClickSound() {
   const ctx = getAudioCtx();
+  if (ctx.state !== "running") return;
+
   const osc1 = ctx.createOscillator();
   const osc2 = ctx.createOscillator();
   const gain = ctx.createGain();
 
   osc1.type = "square";
-  osc1.frequency.setValueAtTime(440, ctx.currentTime);
-  osc1.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.04);
-  osc1.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.15);
+  osc1.frequency.setValueAtTime(520, ctx.currentTime);
+  osc1.frequency.exponentialRampToValueAtTime(780, ctx.currentTime + 0.03);
+  osc1.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.15);
 
   osc2.type = "sine";
-  osc2.frequency.setValueAtTime(880, ctx.currentTime);
-  osc2.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.12);
+  osc2.frequency.setValueAtTime(1040, ctx.currentTime);
+  osc2.frequency.exponentialRampToValueAtTime(520, ctx.currentTime + 0.1);
 
-  gain.gain.setValueAtTime(0.08, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+  gain.gain.setValueAtTime(0.35, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
 
   osc1.connect(gain);
   osc2.connect(gain);
   gain.connect(ctx.destination);
   osc1.start(ctx.currentTime);
   osc2.start(ctx.currentTime);
-  osc1.stop(ctx.currentTime + 0.18);
-  osc2.stop(ctx.currentTime + 0.18);
+  osc1.stop(ctx.currentTime + 0.2);
+  osc2.stop(ctx.currentTime + 0.2);
 }
 
 // Throttle hover sounds so they don't stack up
 let lastHoverTime = 0;
 function throttledHoverSound() {
   const now = Date.now();
-  if (now - lastHoverTime > 80) {
+  if (now - lastHoverTime > 100) {
     lastHoverTime = now;
     playHoverSound();
   }
