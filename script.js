@@ -127,6 +127,88 @@ function animateCounter(el, target) {
   }, 40);
 }
 
+// --- Synthwave UI Sounds (Web Audio API) ---
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
+function playHoverSound() {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(880, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.06);
+
+  gain.gain.setValueAtTime(0.06, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.1);
+}
+
+function playClickSound() {
+  const ctx = getAudioCtx();
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc1.type = "square";
+  osc1.frequency.setValueAtTime(440, ctx.currentTime);
+  osc1.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.04);
+  osc1.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.15);
+
+  osc2.type = "sine";
+  osc2.frequency.setValueAtTime(880, ctx.currentTime);
+  osc2.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.12);
+
+  gain.gain.setValueAtTime(0.08, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(ctx.destination);
+  osc1.start(ctx.currentTime);
+  osc2.start(ctx.currentTime);
+  osc1.stop(ctx.currentTime + 0.18);
+  osc2.stop(ctx.currentTime + 0.18);
+}
+
+// Throttle hover sounds so they don't stack up
+let lastHoverTime = 0;
+function throttledHoverSound() {
+  const now = Date.now();
+  if (now - lastHoverTime > 80) {
+    lastHoverTime = now;
+    playHoverSound();
+  }
+}
+
+// Attach to interactive elements
+const hoverTargets = document.querySelectorAll(
+  ".btn, .nav-links a, .skill-tag, .project-card, .social-link, .nav-resume, .nav-logo"
+);
+
+hoverTargets.forEach((el) => {
+  el.addEventListener("mouseenter", throttledHoverSound);
+});
+
+const clickTargets = document.querySelectorAll(
+  ".btn, .nav-links a, .social-link, .nav-resume, .nav-toggle"
+);
+
+clickTargets.forEach((el) => {
+  el.addEventListener("click", playClickSound);
+});
+
 // --- Smooth scroll for anchor links ---
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", (e) => {
