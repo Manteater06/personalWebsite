@@ -127,131 +127,109 @@ function animateCounter(el, target) {
   }, 40);
 }
 
-// --- Synthwave UI Sounds (Web Audio API) ---
-// AudioContext is created lazily and resumed on every play attempt.
-// No separate "unlock" step needed — we resume inside each play call.
+// --- Synthwave UI Sounds (generated WAV blobs — no WebAudio API) ---
+// Generates actual audio files in memory so playback is bulletproof.
 const SynthSound = (() => {
-  let ctx = null;
+  let hoverUrl = null;
+  let clickUrl = null;
   let lastHover = 0;
 
-  function ensureCtx() {
-    if (!ctx) {
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
+  // Build a 16-bit mono WAV from sample generator function
+  function buildWav(duration, sampleRate, generator) {
+    const numSamples = Math.floor(sampleRate * duration);
+    const buffer = new ArrayBuffer(44 + numSamples * 2);
+    const v = new DataView(buffer);
+
+    // WAV header
+    const s = (o, str) => { for (let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+    s(0, "RIFF");
+    v.setUint32(4, 36 + numSamples * 2, true);
+    s(8, "WAVE");
+    s(12, "fmt ");
+    v.setUint32(16, 16, true);
+    v.setUint16(20, 1, true);
+    v.setUint16(22, 1, true);
+    v.setUint32(24, sampleRate, true);
+    v.setUint32(28, sampleRate * 2, true);
+    v.setUint16(32, 2, true);
+    v.setUint16(34, 16, true);
+    s(36, "data");
+    v.setUint32(40, numSamples * 2, true);
+
+    for (let i = 0; i < numSamples; i++) {
+      const t = i / sampleRate;
+      const sample = Math.max(-1, Math.min(1, generator(t, duration)));
+      v.setInt16(44 + i * 2, sample * 32767, true);
     }
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-    return ctx;
+
+    return URL.createObjectURL(new Blob([buffer], { type: "audio/wav" }));
+  }
+
+  // Hover: soft low hum that swells and fades (not a beep)
+  function makeHoverSound() {
+    return buildWav(0.25, 22050, (t, dur) => {
+      // Gentle envelope: fade in then fade out
+      const env = Math.sin(Math.PI * t / dur);
+      // Low warm sine + even lower sub
+      const wave = Math.sin(2 * Math.PI * 220 * t) * 0.5
+                 + Math.sin(2 * Math.PI * 221.5 * t) * 0.3
+                 + Math.sin(2 * Math.PI * 110 * t) * 0.2;
+      return wave * env * 0.08;
+    });
+  }
+
+  // Click: deeper synth pad chord that hums and fades
+  function makeClickSound() {
+    return buildWav(0.4, 22050, (t, dur) => {
+      // Quick attack, slow fade
+      const env = t < 0.02 ? t / 0.02 : Math.pow(1 - (t - 0.02) / (dur - 0.02), 2);
+      // Rich warm chord: root + fifth + octave, all low
+      const wave = Math.sin(2 * Math.PI * 165 * t) * 0.4
+                 + Math.sin(2 * Math.PI * 165.8 * t) * 0.25
+                 + Math.sin(2 * Math.PI * 247 * t) * 0.2
+                 + Math.sin(2 * Math.PI * 330 * t) * 0.15;
+      return wave * env * 0.1;
+    });
+  }
+
+  function init() {
+    if (!hoverUrl) hoverUrl = makeHoverSound();
+    if (!clickUrl) clickUrl = makeClickSound();
+  }
+
+  function play(url) {
+    try {
+      const a = new Audio(url);
+      a.volume = 1.0;
+      a.play();
+    } catch (e) { /* unsupported */ }
   }
 
   function hover() {
     const now = Date.now();
-    if (now - lastHover < 120) return;
+    if (now - lastHover < 150) return;
     lastHover = now;
-
-    try {
-      const c = ensureCtx();
-      const t = c.currentTime;
-
-      // Warm, soft sine pad blip — like a synth key tap
-      const osc1 = c.createOscillator();
-      const osc2 = c.createOscillator();
-      const gain = c.createGain();
-      const filter = c.createBiquadFilter();
-
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(680, t);
-      osc1.frequency.linearRampToValueAtTime(720, t + 0.15);
-
-      // Slight detune for warm analog feel
-      osc2.type = "sine";
-      osc2.frequency.setValueAtTime(684, t);
-      osc2.frequency.linearRampToValueAtTime(724, t + 0.15);
-
-      // Low-pass filter to keep it soft
-      filter.type = "lowpass";
-      filter.frequency.setValueAtTime(1200, t);
-
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
-      gain.gain.linearRampToValueAtTime(0, t + 0.18);
-
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gain);
-      gain.connect(c.destination);
-
-      osc1.start(t);
-      osc2.start(t);
-      osc1.stop(t + 0.2);
-      osc2.stop(t + 0.2);
-    } catch (e) {
-      // silently fail if Web Audio is unsupported
-    }
+    init();
+    play(hoverUrl);
   }
 
   function click() {
-    try {
-      const c = ensureCtx();
-      const t = c.currentTime;
-
-      const osc1 = c.createOscillator();
-      const osc2 = c.createOscillator();
-      const gain = c.createGain();
-      const filter = c.createBiquadFilter();
-
-      // Warm sine chord — like pressing a synth key
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(440, t);
-      osc1.frequency.linearRampToValueAtTime(480, t + 0.25);
-
-      osc2.type = "triangle";
-      osc2.frequency.setValueAtTime(660, t);
-      osc2.frequency.linearRampToValueAtTime(620, t + 0.25);
-
-      filter.type = "lowpass";
-      filter.frequency.setValueAtTime(1500, t);
-      filter.frequency.linearRampToValueAtTime(600, t + 0.3);
-
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.2, t + 0.015);
-      gain.gain.linearRampToValueAtTime(0, t + 0.3);
-
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gain);
-      gain.connect(c.destination);
-
-      osc1.start(t);
-      osc2.start(t);
-      osc1.stop(t + 0.35);
-      osc2.stop(t + 0.35);
-    } catch (e) {
-      // silently fail
-    }
+    init();
+    play(clickUrl);
   }
 
   return { hover, click };
 })();
 
-// Attach sounds using event delegation on the whole document
-// This way even dynamically added elements get sounds
+// Attach sounds via event delegation
 document.addEventListener("mouseover", (e) => {
-  if (
-    e.target.closest(
-      ".btn, .nav-links a, .skill-tag, .project-card, .social-link, .nav-resume, .nav-logo, .nav-toggle"
-    )
-  ) {
+  if (e.target.closest(".btn, .nav-links a, .skill-tag, .project-card, .social-link, .nav-resume, .nav-logo, .nav-toggle")) {
     SynthSound.hover();
   }
 });
 
 document.addEventListener("click", (e) => {
-  if (
-    e.target.closest(
-      ".btn, .nav-links a, .social-link, .nav-resume, .nav-toggle, .skill-tag"
-    )
-  ) {
+  if (e.target.closest(".btn, .nav-links a, .social-link, .nav-resume, .nav-toggle, .skill-tag")) {
     SynthSound.click();
   }
 });
