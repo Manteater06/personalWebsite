@@ -100,37 +100,37 @@ img {
 }
 
 .glow-blue {
-  width: 500px;
-  height: 350px;
+  width: 600px;
+  height: 450px;
   background: var(--blue);
   top: -8%;
   right: -8%;
-  opacity: 0.06;
+  opacity: 0.15;
   animation: glow-drift-blue 20s ease-in-out infinite alternate;
 }
 
 .glow-pink {
-  width: 400px;
-  height: 500px;
+  width: 500px;
+  height: 600px;
   background: var(--pink);
   bottom: -12%;
   left: -6%;
-  opacity: 0.05;
+  opacity: 0.12;
   animation: glow-drift-pink 25s ease-in-out infinite alternate;
 }
 
 @keyframes glow-drift-blue {
-  0% { transform: translate(0, 0); opacity: 0.06; }
-  33% { transform: translate(-15px, 25px); opacity: 0.04; }
-  66% { transform: translate(10px, -10px); opacity: 0.07; }
-  100% { transform: translate(-5px, 15px); opacity: 0.05; }
+  0% { transform: translate(0, 0); opacity: 0.15; }
+  33% { transform: translate(-15px, 25px); opacity: 0.1; }
+  66% { transform: translate(10px, -10px); opacity: 0.18; }
+  100% { transform: translate(-5px, 15px); opacity: 0.12; }
 }
 
 @keyframes glow-drift-pink {
-  0% { transform: translate(0, 0); opacity: 0.05; }
-  33% { transform: translate(20px, -15px); opacity: 0.035; }
-  66% { transform: translate(-10px, 10px); opacity: 0.06; }
-  100% { transform: translate(8px, -20px); opacity: 0.04; }
+  0% { transform: translate(0, 0); opacity: 0.12; }
+  33% { transform: translate(20px, -15px); opacity: 0.08; }
+  66% { transform: translate(-10px, 10px); opacity: 0.15; }
+  100% { transform: translate(8px, -20px); opacity: 0.1; }
 }
 
 /* --- Noise Texture Overlay --- */
@@ -171,8 +171,8 @@ img {
 }
 
 .nav.scrolled {
-  border-bottom-color: rgba(180, 74, 255, 0.15);
-  box-shadow: 0 1px 15px rgba(180, 74, 255, 0.06), 0 0 20px rgba(0, 212, 255, 0.04);
+  border-bottom-color: rgba(180, 74, 255, 0.3);
+  box-shadow: 0 1px 15px rgba(180, 74, 255, 0.12), 0 0 25px rgba(0, 212, 255, 0.08);
 }
 
 .nav-logo {
@@ -291,11 +291,11 @@ img {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(0, 212, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.08) 1px, transparent 1px);
   background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
 }
 
 /* Synthwave horizon */
@@ -304,56 +304,53 @@ img {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 45%;
+  height: 50%;
   overflow: hidden;
   pointer-events: none;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
 }
 
 .hero-sun {
   position: absolute;
-  bottom: 38%;
+  bottom: 42%;
   left: 50%;
   transform: translateX(-50%);
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
   background:
-    radial-gradient(circle, rgba(255, 150, 50, 0.18) 0%, rgba(255, 45, 149, 0.15) 30%, rgba(180, 74, 255, 0.08) 55%, transparent 70%);
-  filter: blur(6px);
-  /* Horizontal slice lines through the sun */
+    radial-gradient(circle, rgba(255, 180, 50, 0.45) 0%, rgba(255, 45, 149, 0.35) 30%, rgba(180, 74, 255, 0.2) 55%, transparent 70%);
+  filter: blur(4px);
   mask-image: repeating-linear-gradient(
     0deg,
-    black 0px, black 8px,
-    transparent 8px, transparent 12px
+    black 0px, black 10px,
+    transparent 10px, transparent 14px
   );
   -webkit-mask-image: repeating-linear-gradient(
     0deg,
-    black 0px, black 8px,
-    transparent 8px, transparent 12px
+    black 0px, black 10px,
+    transparent 10px, transparent 14px
   );
 }
 
 .hero-sun-reflection {
   position: absolute;
-  bottom: 20%;
+  bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 300px;
-  height: 80px;
-  background: radial-gradient(ellipse, rgba(255, 45, 149, 0.08) 0%, transparent 70%);
-  filter: blur(20px);
+  width: 400px;
+  height: 120px;
+  background: radial-gradient(ellipse, rgba(255, 45, 149, 0.2) 0%, rgba(180, 74, 255, 0.1) 40%, transparent 70%);
+  filter: blur(15px);
 }
 
 .hero-horizon-line {
   position: absolute;
-  bottom: 40%;
+  bottom: 42%;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 5%, rgba(255, 45, 149, 0.25) 30%, rgba(180, 74, 255, 0.35) 50%, rgba(255, 45, 149, 0.25) 70%, transparent 95%);
-  box-shadow: 0 0 12px rgba(255, 45, 149, 0.15);
+  height: 2px;
+  background: linear-gradient(90deg, transparent 5%, rgba(255, 45, 149, 0.6) 25%, rgba(180, 74, 255, 0.8) 50%, rgba(255, 45, 149, 0.6) 75%, transparent 95%);
+  box-shadow: 0 0 20px rgba(255, 45, 149, 0.3), 0 0 40px rgba(180, 74, 255, 0.15);
 }
 
 .hero-floor-grid {
@@ -361,40 +358,42 @@ img {
   bottom: 0;
   left: -50%;
   right: -50%;
-  height: 42%;
+  height: 44%;
   background-image:
-    linear-gradient(rgba(180, 74, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(180, 74, 255, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(180, 74, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.18) 1px, transparent 1px);
   background-size: 80px 24px;
   transform: perspective(350px) rotateX(55deg);
   transform-origin: bottom center;
+  mask-image: linear-gradient(to top, black 0%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 95%);
 }
 
 /* Palm tree silhouettes */
 .hero-palm {
   position: absolute;
-  bottom: 12%;
-  width: 180px;
-  height: 300px;
+  bottom: 8%;
+  width: 220px;
+  height: 380px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.06;
+  opacity: 0.15;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom center;
 }
 
 .hero-palm-left {
-  left: 4%;
+  left: 3%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cpath d='M95 400 L100 180 Q102 160 98 150 Q60 120 15 100 Q55 110 95 140 Q80 100 40 60 Q75 90 100 135 Q95 90 80 40 Q95 80 105 130 Q110 80 130 30 Q115 85 108 135 Q120 90 155 55 Q125 95 110 140 Q140 110 180 95 Q140 120 105 150 Q103 160 105 180 Z' fill='%23b44aff'/%3E%3C/svg%3E");
   transform: scaleX(-1);
 }
 
 .hero-palm-right {
-  right: 6%;
+  right: 5%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cpath d='M95 400 L100 180 Q102 160 98 150 Q60 120 15 100 Q55 110 95 140 Q80 100 40 60 Q75 90 100 135 Q95 90 80 40 Q95 80 105 130 Q110 80 130 30 Q115 85 108 135 Q120 90 155 55 Q125 95 110 140 Q140 110 180 95 Q140 120 105 150 Q103 160 105 180 Z' fill='%23b44aff'/%3E%3C/svg%3E");
   transform: rotate(5deg);
-  opacity: 0.045;
+  opacity: 0.12;
 }
 
 .hero-content {
@@ -588,12 +587,12 @@ img {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(180, 74, 255, 0.2) 20%,
-    rgba(0, 212, 255, 0.3) 50%,
-    rgba(255, 45, 149, 0.2) 80%,
+    rgba(180, 74, 255, 0.5) 20%,
+    rgba(0, 212, 255, 0.7) 50%,
+    rgba(255, 45, 149, 0.5) 80%,
     transparent
   );
-  box-shadow: 0 0 8px rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), 0 0 25px rgba(180, 74, 255, 0.1);
 }
 
 .hero + .section::before {
@@ -671,8 +670,9 @@ img {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   box-shadow:
-    0 0 15px rgba(180, 74, 255, 0.04),
-    inset 0 1px 0 rgba(0, 212, 255, 0.06);
+    0 0 20px rgba(180, 74, 255, 0.1),
+    0 0 40px rgba(0, 212, 255, 0.05),
+    inset 0 1px 0 rgba(0, 212, 255, 0.1);
 }
 
 .terminal-header {
@@ -749,7 +749,7 @@ img {
 
 .skill-category:hover {
   border-color: var(--blue-dim);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.06), 0 4px 20px rgba(180, 74, 255, 0.04);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 4px 20px rgba(180, 74, 255, 0.1);
 }
 
 .skill-category:hover::after {
@@ -790,7 +790,7 @@ img {
 .skill-tag:hover {
   border-color: var(--blue);
   color: var(--blue);
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.25), 0 0 20px rgba(0, 212, 255, 0.1);
   transform: translateY(-2px);
 }
 
@@ -828,7 +828,7 @@ img {
 .project-card:hover {
   transform: translateY(-6px);
   border-color: var(--pink-dim);
-  box-shadow: 0 10px 40px rgba(255, 45, 149, 0.08), 0 0 25px rgba(180, 74, 255, 0.05);
+  box-shadow: 0 10px 40px rgba(255, 45, 149, 0.18), 0 0 30px rgba(180, 74, 255, 0.12);
 }
 
 .project-card:hover::before {
@@ -916,6 +916,7 @@ img {
 .social-link:hover {
   color: var(--blue);
   transform: translateY(-3px);
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
 }
 
 /* --- Footer --- */
@@ -936,11 +937,12 @@ img {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(180, 74, 255, 0.15) 30%,
-    rgba(0, 212, 255, 0.2) 50%,
-    rgba(255, 45, 149, 0.15) 70%,
+    rgba(180, 74, 255, 0.4) 30%,
+    rgba(0, 212, 255, 0.5) 50%,
+    rgba(255, 45, 149, 0.4) 70%,
     transparent
   );
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
 }
 
 .footer-text {
@@ -959,8 +961,8 @@ img {
 /* Skills: circuit trace pattern */
 .section-circuit {
   background-image:
-    radial-gradient(circle at 85% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 35%),
-    radial-gradient(circle at 15% 80%, rgba(180, 74, 255, 0.025) 0%, transparent 30%);
+    radial-gradient(circle at 85% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 35%),
+    radial-gradient(circle at 15% 80%, rgba(180, 74, 255, 0.06) 0%, transparent 30%);
   background-color: var(--bg-section-alt);
 }
 
@@ -969,24 +971,24 @@ img {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.1;
   background-image:
     /* Horizontal traces */
-    linear-gradient(0deg, transparent 49.5%, rgba(0, 212, 255, 0.6) 49.5%, rgba(0, 212, 255, 0.6) 50.5%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, rgba(0, 212, 255, 0.5) 49.5%, rgba(0, 212, 255, 0.5) 50.5%, transparent 50.5%),
     /* Vertical traces */
-    linear-gradient(90deg, transparent 49.5%, rgba(180, 74, 255, 0.6) 49.5%, rgba(180, 74, 255, 0.6) 50.5%, transparent 50.5%),
+    linear-gradient(90deg, transparent 49.5%, rgba(180, 74, 255, 0.5) 49.5%, rgba(180, 74, 255, 0.5) 50.5%, transparent 50.5%),
     /* Nodes / dots */
     radial-gradient(circle 2px, rgba(0, 212, 255, 0.8) 100%, transparent 100%);
-  background-size: 120px 120px, 120px 120px, 120px 120px;
-  mask-image: radial-gradient(ellipse at center, transparent 20%, black 50%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse at center, transparent 20%, black 50%, transparent 85%);
+  background-size: 100px 100px, 100px 100px, 100px 100px;
+  mask-image: radial-gradient(ellipse at center, transparent 10%, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 10%, black 40%, transparent 80%);
 }
 
 /* Projects: hex / diamond grid pattern */
 .section-hex {
   background-image:
-    radial-gradient(circle at 70% 30%, rgba(255, 45, 149, 0.025) 0%, transparent 40%),
-    radial-gradient(circle at 30% 70%, rgba(0, 212, 255, 0.02) 0%, transparent 35%);
+    radial-gradient(circle at 70% 30%, rgba(255, 45, 149, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 30% 70%, rgba(0, 212, 255, 0.05) 0%, transparent 35%);
 }
 
 .section-hex::after {
@@ -994,19 +996,22 @@ img {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.1;
   background-image:
     linear-gradient(60deg, transparent 48%, rgba(255, 45, 149, 0.4) 48%, rgba(255, 45, 149, 0.4) 52%, transparent 52%),
     linear-gradient(-60deg, transparent 48%, rgba(255, 45, 149, 0.4) 48%, rgba(255, 45, 149, 0.4) 52%, transparent 52%),
     linear-gradient(0deg, transparent 48%, rgba(180, 74, 255, 0.4) 48%, rgba(180, 74, 255, 0.4) 52%, transparent 52%);
   background-size: 60px 104px;
-  mask-image: radial-gradient(ellipse at center, transparent 15%, black 45%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at center, transparent 15%, black 45%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, transparent 5%, black 35%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 5%, black 35%, transparent 75%);
 }
 
 /* Contact: city skyline silhouette + glow */
 .section-city {
   background-color: var(--bg-section-alt);
+  background-image:
+    radial-gradient(ellipse at 50% 100%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(180, 74, 255, 0.04) 0%, transparent 40%);
   overflow: hidden;
 }
 
@@ -1016,9 +1021,9 @@ img {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 120px;
+  height: 150px;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.12;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120 L0 80 L30 80 L30 50 L50 50 L50 70 L70 70 L70 30 L90 30 L90 70 L110 70 L110 45 L130 45 L130 60 L150 60 L150 20 L170 20 L170 60 L190 60 L190 40 L210 40 L210 65 L240 65 L240 35 L260 35 L260 55 L280 55 L280 75 L300 75 L300 25 L320 25 L320 60 L340 60 L340 45 L360 45 L360 70 L380 70 L380 50 L400 50 L400 15 L420 15 L420 55 L440 55 L440 40 L460 40 L460 70 L480 70 L480 55 L500 55 L500 30 L520 30 L520 65 L540 65 L540 45 L560 45 L560 75 L580 75 L580 35 L600 35 L600 60 L620 60 L620 20 L640 20 L640 50 L660 50 L660 70 L680 70 L680 40 L700 40 L700 65 L720 65 L720 25 L740 25 L740 55 L760 55 L760 45 L780 45 L780 70 L800 70 L800 30 L820 30 L820 60 L840 60 L840 50 L860 50 L860 75 L880 75 L880 20 L900 20 L900 55 L920 55 L920 40 L940 40 L940 65 L960 65 L960 35 L980 35 L980 50 L1000 50 L1000 70 L1020 70 L1020 45 L1040 45 L1040 60 L1060 60 L1060 25 L1080 25 L1080 55 L1100 55 L1100 40 L1120 40 L1120 70 L1140 70 L1140 50 L1160 50 L1160 80 L1200 80 L1200 120 Z' fill='%2300d4ff'/%3E%3C/svg%3E");
   background-size: 100% 100%;
   background-repeat: no-repeat;
