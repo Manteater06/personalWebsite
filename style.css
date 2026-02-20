@@ -287,97 +287,88 @@ img {
   overflow: hidden;
 }
 
-/* ===== 3D Road — minimalist perspective road to horizon ===== */
-.hero-road {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 45%;
-  pointer-events: none;
-  perspective: 400px;
-  overflow: hidden;
-}
-
-.road-surface {
-  position: absolute;
-  bottom: 0;
-  /* Trapezoid: wide at bottom, narrow at top (vanishing point) */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 100%;
-  /* Road rendered via clip-path for clean 3D trapezoid shape */
-  clip-path: polygon(35% 0%, 65% 0%, 95% 100%, 5% 100%);
-  background:
-    /* Subtle grid overlay for asphalt texture */
-    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-    /* Road base — very dark, just slightly lighter than bg */
-    linear-gradient(to top, rgba(15, 15, 30, 0.9), rgba(10, 10, 18, 0.95));
-  background-size: 100% 18px, 100% 100%;
-  /* Side edges glow */
-  border-left: none;
-  border-right: none;
-}
-
-/* Neon edge lines of the road */
-.road-surface::before {
-  content: "";
+/* ===== Starfield — scattered dots in the sky ===== */
+.hero-stars {
   position: absolute;
   inset: 0;
-  clip-path: polygon(35% 0%, 65% 0%, 95% 100%, 5% 100%);
-  /* Left and right edge lines using gradients */
-  background:
-    /* Left edge */
-    linear-gradient(to bottom,
-      rgba(0, 212, 255, 0.6) 0%,
-      rgba(0, 212, 255, 0.9) 100%
-    ),
-    /* Right edge */
-    linear-gradient(to bottom,
-      rgba(0, 212, 255, 0.6) 0%,
-      rgba(0, 212, 255, 0.9) 100%
-    );
-  /* Mask so only the edges show */
-  mask-image:
-    linear-gradient(to right, white 0px, white 2px, transparent 2px, transparent calc(100% - 2px), white calc(100% - 2px), white 100%);
-  -webkit-mask-image:
-    linear-gradient(to right, white 0px, white 2px, transparent 2px, transparent calc(100% - 2px), white calc(100% - 2px), white 100%);
-  filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.5)) drop-shadow(0 0 16px rgba(0, 212, 255, 0.2));
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 28% 8%, rgba(0, 212, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 45% 22%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 67% 12%, rgba(180, 74, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 82% 25%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 91% 9%, rgba(0, 212, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 7% 35%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 35% 5%, rgba(255, 45, 149, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 73% 30%, rgba(180, 74, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 20% 28%, rgba(0, 212, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 50% 3%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 18%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 15% 6%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 60% 32%, rgba(0, 212, 255, 0.35) 50%, transparent 50%),
+    radial-gradient(1px 1px at 95% 38%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 40% 40%, rgba(180, 74, 255, 0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 3% 10%, rgba(255, 255, 255, 0.5) 50%, transparent 50%);
+  /* Fade out toward the bottom half so stars stay in the "sky" */
+  mask-image: linear-gradient(to bottom, white 0%, white 40%, transparent 60%);
+  -webkit-mask-image: linear-gradient(to bottom, white 0%, white 40%, transparent 60%);
 }
 
-/* Dashed center line */
-.road-line {
+/* ===== 3D Perspective Grid Floor ===== */
+.hero-grid-floor {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 100%;
-  background: repeating-linear-gradient(
-    to top,
-    rgba(255, 45, 149, 0.8) 0px,
-    rgba(255, 45, 149, 0.8) 20px,
-    transparent 20px,
-    transparent 40px
-  );
-  filter: drop-shadow(0 0 4px rgba(255, 45, 149, 0.5)) drop-shadow(0 0 10px rgba(255, 45, 149, 0.2));
-  /* Dashes get smaller toward the top (horizon) via mask */
-  mask-image: linear-gradient(to top, white, rgba(255,255,255,0.3));
-  -webkit-mask-image: linear-gradient(to top, white, rgba(255,255,255,0.3));
+  left: -80%;
+  right: -80%;
+  height: 42%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.12) 1px, transparent 1px);
+  background-size: 80px 32px;
+  transform: perspective(280px) rotateX(58deg);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 90%);
 }
 
-/* Horizon glow line where road meets sky */
-.road-surface::after {
+/* ===== Horizon glow — pink/violet band at the grid's edge ===== */
+.hero-horizon-glow {
+  position: absolute;
+  bottom: 38%;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%,
+    rgba(255, 45, 149, 0.25) 0%,
+    rgba(180, 74, 255, 0.15) 40%,
+    transparent 70%
+  );
+  filter: blur(8px);
+}
+
+/* Thin horizon line */
+.hero-horizon-glow::after {
   content: "";
   position: absolute;
-  top: -1px;
-  left: 20%;
-  right: 20%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(180, 74, 255, 0.7) 30%, rgba(255, 45, 149, 0.8) 50%, rgba(180, 74, 255, 0.7) 70%, transparent);
-  filter: blur(1px);
-  box-shadow: 0 0 20px rgba(255, 45, 149, 0.4), 0 0 50px rgba(180, 74, 255, 0.2);
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.5) 15%,
+    rgba(255, 45, 149, 0.7) 35%,
+    rgba(180, 74, 255, 0.8) 50%,
+    rgba(255, 45, 149, 0.7) 65%,
+    rgba(0, 212, 255, 0.5) 85%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+  box-shadow: 0 0 12px rgba(255, 45, 149, 0.3), 0 0 30px rgba(180, 74, 255, 0.15);
 }
 
 .hero-content {
@@ -1080,7 +1071,10 @@ img {
     align-items: flex-start;
   }
 
-  .hero-road {
-    height: 35%;
+  .hero-grid-floor {
+    height: 32%;
+  }
+  .hero-horizon-glow {
+    bottom: 28%;
   }
 }
