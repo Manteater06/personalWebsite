@@ -287,88 +287,175 @@ img {
   overflow: hidden;
 }
 
-/* ===== Starfield — scattered dots in the sky ===== */
-.hero-stars {
+/* ===== Cyberpunk Night Sky ===== */
+.hero-sky {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
-    radial-gradient(1px 1px at 28% 8%, rgba(0, 212, 255, 0.6) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 45% 22%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
-    radial-gradient(1px 1px at 67% 12%, rgba(180, 74, 255, 0.5) 50%, transparent 50%),
-    radial-gradient(1px 1px at 82% 25%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 91% 9%, rgba(0, 212, 255, 0.5) 50%, transparent 50%),
-    radial-gradient(1px 1px at 7% 35%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
-    radial-gradient(1px 1px at 35% 5%, rgba(255, 45, 149, 0.4) 50%, transparent 50%),
-    radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 73% 30%, rgba(180, 74, 255, 0.4) 50%, transparent 50%),
-    radial-gradient(1px 1px at 20% 28%, rgba(0, 212, 255, 0.4) 50%, transparent 50%),
-    radial-gradient(1px 1px at 50% 3%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
-    radial-gradient(1px 1px at 88% 18%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 15% 6%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
-    radial-gradient(1px 1px at 60% 32%, rgba(0, 212, 255, 0.35) 50%, transparent 50%),
-    radial-gradient(1px 1px at 95% 38%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
-    radial-gradient(1px 1px at 40% 40%, rgba(180, 74, 255, 0.3) 50%, transparent 50%),
-    radial-gradient(1px 1px at 3% 10%, rgba(255, 255, 255, 0.5) 50%, transparent 50%);
-  /* Fade out toward the bottom half so stars stay in the "sky" */
-  mask-image: linear-gradient(to bottom, white 0%, white 40%, transparent 60%);
-  -webkit-mask-image: linear-gradient(to bottom, white 0%, white 40%, transparent 60%);
+  /* Deep gradient: dark top → deep purple → pink/violet at horizon */
+  background:
+    /* Nebula clouds — layered radial blobs */
+    radial-gradient(ellipse 40% 30% at 15% 25%, rgba(180, 74, 255, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 25% at 80% 15%, rgba(0, 212, 255, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 20% at 55% 40%, rgba(255, 45, 149, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 35% at 30% 10%, rgba(0, 212, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 15% at 70% 35%, rgba(180, 74, 255, 0.07) 0%, transparent 60%),
+    /* Sky gradient base */
+    linear-gradient(to bottom,
+      #050510 0%,
+      #08081a 15%,
+      #0d0a22 30%,
+      #14082e 45%,
+      #1a0635 55%,
+      #280a3a 65%,
+      #3a0a38 75%,
+      #4a0e30 85%,
+      #3a0828 100%
+    );
 }
 
-/* ===== 3D Perspective Grid Floor ===== */
+/* Stars layer — via ::before */
+.hero-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Bright stars */
+    radial-gradient(1.5px 1.5px at 8% 12%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+    radial-gradient(2px 2px at 25% 6%, rgba(0, 212, 255, 0.8) 50%, transparent 50%),
+    radial-gradient(1px 1px at 42% 18%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 63% 9%, rgba(180, 74, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 78% 22%, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+    radial-gradient(2px 2px at 92% 7%, rgba(0, 212, 255, 0.7) 50%, transparent 50%),
+    /* Medium stars */
+    radial-gradient(1px 1px at 5% 28%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 18% 4%, rgba(255, 45, 149, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 33% 32%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 48% 14%, rgba(0, 212, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 56% 3%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 71% 28%, rgba(180, 74, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 85% 16%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 95% 30%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    /* Dim stars */
+    radial-gradient(1px 1px at 12% 38%, rgba(255, 255, 255, 0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 37% 8%, rgba(0, 212, 255, 0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 52% 26%, rgba(255, 255, 255, 0.3) 50%, transparent 50%),
+    radial-gradient(1px 1px at 66% 2%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1px 1px at 81% 34%, rgba(180, 74, 255, 0.25) 50%, transparent 50%),
+    radial-gradient(1px 1px at 3% 20%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 44% 36%, rgba(0, 212, 255, 0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 10%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 74% 42%, rgba(255, 255, 255, 0.2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 15% 44%, rgba(180, 74, 255, 0.15) 50%, transparent 50%),
+    radial-gradient(1px 1px at 60% 40%, rgba(255, 255, 255, 0.2) 50%, transparent 50%);
+  /* Fade stars out near the bottom */
+  mask-image: linear-gradient(to bottom, white 0%, white 35%, transparent 55%);
+  -webkit-mask-image: linear-gradient(to bottom, white 0%, white 35%, transparent 55%);
+}
+
+/* Subtle twinkling shimmer via animated opacity on ::after */
+.hero-sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 10%, rgba(255, 255, 255, 0.8) 50%, transparent 50%),
+    radial-gradient(1px 1px at 50% 20%, rgba(0, 212, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 75% 5%, rgba(255, 45, 149, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 38% 28%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 90% 18%, rgba(180, 74, 255, 0.5) 50%, transparent 50%);
+  mask-image: linear-gradient(to bottom, white 0%, white 30%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to bottom, white 0%, white 30%, transparent 50%);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* ===== 3D Perspective Grid Floor — strong depth ===== */
 .hero-grid-floor {
   position: absolute;
   bottom: 0;
-  left: -80%;
-  right: -80%;
-  height: 42%;
+  left: -120%;
+  right: -120%;
+  height: 50%;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(180, 74, 255, 0.12) 1px, transparent 1px);
-  background-size: 80px 32px;
-  transform: perspective(280px) rotateX(58deg);
+    linear-gradient(rgba(0, 212, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.18) 1px, transparent 1px);
+  background-size: 70px 30px;
+  transform: perspective(200px) rotateX(62deg);
   transform-origin: bottom center;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 90%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 90%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, transparent 85%);
 }
 
-/* ===== Horizon glow — pink/violet band at the grid's edge ===== */
-.hero-horizon-glow {
-  position: absolute;
-  bottom: 38%;
-  left: 0;
-  right: 0;
-  height: 80px;
-  pointer-events: none;
-  background: radial-gradient(ellipse 70% 100% at 50% 100%,
-    rgba(255, 45, 149, 0.25) 0%,
-    rgba(180, 74, 255, 0.15) 40%,
-    transparent 70%
-  );
-  filter: blur(8px);
-}
-
-/* Thin horizon line */
-.hero-horizon-glow::after {
+/* Grid glow bloom — doubles the grid with a blurred copy underneath */
+.hero-grid-floor::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 1.5px;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.12) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(180, 74, 255, 0.1) 2px, transparent 2px);
+  background-size: 70px 30px;
+  filter: blur(3px);
+}
+
+/* ===== Synthwave Sun on horizon ===== */
+.hero-sun {
+  position: absolute;
+  bottom: 44%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 90px;
+  border-radius: 90px 90px 0 0;
+  pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(255, 45, 149, 0.9) 0%,
+    rgba(255, 120, 50, 0.7) 30%,
+    rgba(255, 200, 50, 0.5) 60%,
+    rgba(255, 255, 150, 0.3) 100%
+  );
+  filter: blur(2px);
+  box-shadow:
+    0 0 40px rgba(255, 45, 149, 0.4),
+    0 0 80px rgba(255, 120, 50, 0.2),
+    0 0 140px rgba(255, 45, 149, 0.15);
+  /* Horizontal scan-line slices through the sun */
+  mask-image:
+    repeating-linear-gradient(to bottom,
+      white 0px, white 6px,
+      transparent 6px, transparent 9px
+    );
+  -webkit-mask-image:
+    repeating-linear-gradient(to bottom,
+      white 0px, white 6px,
+      transparent 6px, transparent 9px
+    );
+}
+
+/* Sun reflection glow on the horizon */
+.hero-sun::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: -60%;
+  right: -60%;
+  height: 16px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(0, 212, 255, 0.5) 15%,
-    rgba(255, 45, 149, 0.7) 35%,
-    rgba(180, 74, 255, 0.8) 50%,
-    rgba(255, 45, 149, 0.7) 65%,
-    rgba(0, 212, 255, 0.5) 85%,
+    rgba(255, 45, 149, 0.5) 20%,
+    rgba(255, 120, 50, 0.6) 40%,
+    rgba(255, 200, 50, 0.5) 50%,
+    rgba(255, 120, 50, 0.6) 60%,
+    rgba(255, 45, 149, 0.5) 80%,
     transparent 100%
   );
-  filter: blur(0.5px);
-  box-shadow: 0 0 12px rgba(255, 45, 149, 0.3), 0 0 30px rgba(180, 74, 255, 0.15);
+  filter: blur(6px);
 }
 
 .hero-content {
@@ -1072,9 +1159,11 @@ img {
   }
 
   .hero-grid-floor {
-    height: 32%;
+    height: 38%;
   }
-  .hero-horizon-glow {
-    bottom: 28%;
+  .hero-sun {
+    width: 120px;
+    height: 60px;
+    bottom: 36%;
   }
 }
